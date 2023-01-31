@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar class="justify-between">
         <q-btn
           flat
           dense
@@ -10,34 +10,47 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <p class="no-margin text-subtitle2 text-grey-3">v {{ version }}</p>
       </q-toolbar>
+      <div class="q-px-lg">
+        <div class="text-h4 text-weight-medium">Todo App</div>
+        <p class="text-subtitle2">{{ currentDate }}</p>
+      </div>
     </q-header>
 
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
-      bordered
-      content-class="bg-grey-1"
+      :width="200"
+      :breakpoint="600"
     >
-      <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          Essential Links
-        </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
+      <q-scroll-area
+        style="
+          height: calc(100% - 165px);
+          margin-top: 165px;
+          border-right: 1px solid #ddd;
+        "
+      >
+        <q-list padding>
+          <q-item clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="list" />
+            </q-item-section>
+
+            <q-item-section> Tasks </q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
+
+      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png">
+        <div class="absolute-bottom bg-transparent">
+          <q-avatar size="56px" class="q-mb-sm">
+            <img src="../assets/img/user.jpg" />
+          </q-avatar>
+          <div class="text-weight-bold">Jenil Gajjar</div>
+          <div>Frontend Developer</div>
+        </div>
+      </q-img>
     </q-drawer>
 
     <q-page-container>
@@ -47,63 +60,22 @@
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksData = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+import { date } from "quasar";
+import { version } from "../../package.json";
 
 export default {
-  name: 'MainLayout',
-  components: {
-    EssentialLink
-  },
-  data () {
+  name: "MainLayout",
+  data() {
     return {
       leftDrawerOpen: false,
-      essentialLinks: linksData
-    }
-  }
-}
+      version,
+    };
+  },
+  computed: {
+    currentDate() {
+      let timestamp = Date.now();
+      return date.formatDate(timestamp, "dddd, Do MMM");
+    },
+  },
+};
 </script>
