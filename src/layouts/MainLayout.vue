@@ -32,12 +32,20 @@
         "
       >
         <q-list padding>
-          <q-item clickable v-ripple>
+          <q-item to="/" exact clickable>
             <q-item-section avatar>
               <q-icon name="list" />
             </q-item-section>
 
             <q-item-section> Tasks </q-item-section>
+          </q-item>
+
+          <q-item to="/about" clickable>
+            <q-item-section avatar>
+              <q-icon name="info" />
+            </q-item-section>
+
+            <q-item-section> About </q-item-section>
           </q-item>
         </q-list>
       </q-scroll-area>
